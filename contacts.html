@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="Thunder_bird: Reviving the art of communication with secure, open-source email and digital letters. Experience the freedom of encrypted mail and smart inbox organization." name="description"/>
+<meta content="secure messaging, open-source email, digital letters, communication tools, encrypted mail, user privacy, smart inbox, mail organization, email freedom, cross-platform messaging, thunderbird, thunder bird" name="keywords"/>
+<title>Thunder_bird - Digital Epistolary: Reviving the Art of Communication</title>
+<link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=American+Typewriter:wght@300;400;700&amp;family=Lato:wght@300;400;700&amp;family=Caveat:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<style>
+    :root {
+        --primary-bg: #F2E8D5;
+        --secondary-bg: #E6D9C2;
+        --text-color: #2C2C2C;
+        --accent-color: #1C3F60;
+        --highlight-color: #FFF9E6;
+    }
+    
+    body {
+        font-family: 'Lato', sans-serif;
+        color: var(--text-color);
+        background-color: var(--primary-bg);
+        line-height: 1.6;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+        font-family: 'American Typewriter', serif;
+    }
+    
+    h1 { font-size: 36px; }
+    h2 { font-size: 28px; }
+    h3 { font-size: 22px; }
+    
+    .accent-text {
+        font-family: 'Caveat', cursive;
+    }
+    
+    .container {
+        max-width: 1200px;
+    }
+    
+    .btn {
+        border-radius: 20px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    input[type="text"], input[type="email"], textarea {
+        border: none;
+        border-bottom: 1px solid var(--text-color);
+        background-color: transparent;
+    }
+    
+    .custom-checkbox .custom-control-label::before,
+    .custom-radio .custom-control-label::before {
+        background-color: var(--highlight-color);
+        border: 2px solid var(--accent-color);
+    }
+    
+    .divider {
+        border-top: 2px dashed var(--accent-color);
+    }
+    
+    .icon {
+        width: 24px;
+        height: 24px;
+        stroke-width: 1.5px;
+    }
+    
+    .card {
+        background-color: var(--secondary-bg);
+        border: none;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    @media (min-width: 768px) {
+        .two-column-layout {
+            column-count: 2;
+            column-gap: 2rem;
+        }
+    }
+    
+    @media (min-width: 992px) {
+        .multi-column-layout {
+            column-count: 3;
+            column-gap: 2rem;
+        }
+    }
+    
+    .fade-in {
+        animation: fadeIn 0.3s ease-in;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    
+    .hover-effect:hover {
+        transform: scale(1.05);
+        transition: transform 0.3s ease;
+    }
+</style>
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        // Implement smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Add fade-in effect to elements as they come into view
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        });
+
+        document.querySelectorAll('.fade-in-section').forEach((el) => {
+            observer.observe(el);
+        });
+    });
+</script>
+<div class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center" id="cookie-popup" style="background-color: rgba(0,0,0,0.5); z-index: 9999;">
+<div class="bg-light p-4 rounded" style="max-width: 400px;">
+<h3 class="mb-3" style="font-family: 'American Typewriter', 'Courier Prime', serif; color: #2C2C2C;">Cookie Usage</h3>
+<p style="font-family: 'Lato', 'Open Sans', sans-serif; color: #2C2C2C;">We use cookies to enhance your experience on our secure messaging platform. By continuing to use Thunder_bird, you agree to our use of cookies.</p>
+<div class="d-flex justify-content-end mt-3">
+<button class="btn me-2" id="cookie-disagree" style="background-color: #E6D9C2; color: #2C2C2C; font-family: 'Lato', 'Open Sans', sans-serif;">Disagree</button>
+<button class="btn" id="cookie-agree" style="background-color: #1C3F60; color: #FFF9E6; font-family: 'Lato', 'Open Sans', sans-serif;">Agree</button>
+</div>
+</div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const cookiePopup = document.getElementById('cookie-popup');
+    const agreeButton = document.getElementById('cookie-agree');
+    const disagreeButton = document.getElementById('cookie-disagree');
+
+    function hideCookiePopup() {
+        cookiePopup.style.display = 'none !important';
+        cookiePopup.remove(); // Completely remove from DOM
+    }
+
+    function setCookiePreference(agreed) {
+        localStorage.setItem('cookiePreference', agreed ? 'agreed' : 'disagreed');
+        hideCookiePopup();
+    }
+
+    if (localStorage.getItem('cookiePreference') === null) {
+        cookiePopup.style.display = 'flex';
+    } else {
+        hideCookiePopup();
+    }
+
+    agreeButton.addEventListener('click', function() {
+        setCookiePreference(true);
+    });
+
+    disagreeButton.addEventListener('click', function() {
+        setCookiePreference(false);
+    });
+});
+</script>
+</head>
+<body style="display: flex; flex-direction: column; min-height: 100vh;">
+<div style="flex: 1;">
+<header>
+<header class="bg-light py-3">
+<div class="container">
+<nav class="navbar navbar-expand-lg navbar-light">
+<a class="navbar-brand" href="/" style="font-family: 'American Typewriter', 'Courier Prime', monospace; font-size: 28px; color: #1C3F60;">Thunder_bird</a>
+<button aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbarNav" data-bs-toggle="collapse" type="button">
+<span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+<ul class="navbar-nav">
+<li class="nav-item">
+<a class="nav-link" href="posts.html" style="font-family: 'Lato', 'Open Sans', sans-serif; color: #2C2C2C;">Posts</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="about.html" style="font-family: 'Lato', 'Open Sans', sans-serif; color: #2C2C2C;">About</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="contacts.html" style="font-family: 'Lato', 'Open Sans', sans-serif; color: #2C2C2C;">Contacts</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="privacy_policy.html" style="font-family: 'Lato', 'Open Sans', sans-serif; color: #2C2C2C;">Privacy Policy</a>
+</li>
+</ul>
+</div>
+</nav>
+</div>
+</header>
+<style>
+    header {
+        background-color: #F2E8D5 !important;
+    }
+    .navbar-brand:hover, .nav-link:hover {
+        color: #1C3F60 !important;
+        transform: scale(1.05);
+        transition: all 0.3s ease;
+    }
+    .nav-link {
+        margin: 0 10px;
+        position: relative;
+    }
+    .nav-link::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        bottom: 0;
+        left: 0;
+        background-color: #1C3F60;
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+    }
+    .nav-link:hover::after {
+        transform: scaleX(1);
+    }
+    @media (max-width: 991.98px) {
+        .navbar-collapse {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: #F2E8D5;
+            padding: 1rem;
+            z-index: 1000;
+        }
+        .navbar-nav {
+            flex-direction: column;
+        }
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+    }
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var navbarToggler = document.querySelector('.navbar-toggler');
+    var navbarCollapse = document.querySelector('.navbar-collapse');
+
+    navbarToggler.addEventListener('click', function() {
+        navbarCollapse.classList.toggle('show');
+    });
+});
+</script>
+</header>
+<div class="row">
+<div class="col-md-6">
+<div class="container mt-5">
+<h2 class="mb-4" style="font-family: 'American Typewriter', 'Courier Prime', serif; color: #2C2C2C;">Get in Touch</h2>
+<div class="card" style="background-color: #FFF9E6; border: none; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+<div class="card-body">
+<h3 class="mb-3" style="font-family: 'American Typewriter', 'Courier Prime', serif; color: #1C3F60;">Thunder_bird Headquarters</h3>
+<p style="font-family: 'Lato', 'Open Sans', sans-serif; color: #2C2C2C;">
+<i class="fas fa-map-marker-alt mr-2" style="color: #1C3F60;"></i> 123 Digital Avenue, Cyber City, TC 54321
+            </p>
+<p style="font-family: 'Lato', 'Open Sans', sans-serif; color: #2C2C2C;">
+<i class="fas fa-phone mr-2" style="color: #1C3F60;"></i> +1 (555) 123-4567
+            </p>
+<p style="font-family: 'Lato', 'Open Sans', sans-serif; color: #2C2C2C;">
+<i class="fas fa-envelope mr-2" style="color: #1C3F60;"></i> info@thunderbird.com
+            </p>
+</div>
+</div>
+<div class="mt-5">
+<h3 class="mb-3" style="font-family: 'American Typewriter', 'Courier Prime', serif; color: #2C2C2C;">Connect with Us</h3>
+<div class="d-flex">
+<a class="btn btn-outline-primary mr-2" href="#" style="background-color: #1C3F60; color: #FFF9E6; border: none; margin-right: 10px;">
+<i class="fab fa-twitter"></i> Twitter
+            </a>
+<a class="btn btn-outline-primary mr-2" href="#" style="background-color: #1C3F60; color: #FFF9E6; border: none; margin-right: 10px;">
+<i class="fab fa-facebook-f"></i> Facebook
+            </a>
+<a class="btn btn-outline-primary" href="#" style="background-color: #1C3F60; color: #FFF9E6; border: none;">
+<i class="fab fa-linkedin-in"></i> LinkedIn
+            </a>
+</div>
+</div>
+<div class="mt-5">
+<h3 class="mb-3" style="font-family: 'American Typewriter', 'Courier Prime', serif; color: #2C2C2C;">Our Mission</h3>
+<p style="font-family: 'Lato', 'Open Sans', sans-serif; color: #2C2C2C; font-style: italic;">
+            "At Thunder_bird, we're reviving the art of communication in a fragmented world. Our secure, open-source email platform brings the thoughtfulness of letter-writing to the digital age, ensuring your messages are not just sent, but truly received."
+        </p>
+</div>
+<div class="mt-5">
+<h3 class="mb-3" style="font-family: 'American Typewriter', 'Courier Prime', serif; color: #2C2C2C;">Support Hours</h3>
+<p style="font-family: 'Lato', 'Open Sans', sans-serif; color: #2C2C2C;">
+            Monday - Friday: 9:00 AM - 6:00 PM (EST)<br/>
+            Saturday: 10:00 AM - 2:00 PM (EST)<br/>
+            Sunday: Closed
+        </p>
+</div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+    const buttons = document.querySelectorAll('.btn-outline-primary');
+    buttons.forEach(button => {
+        button.addEventListener('mouseover', function() {
+            this.style.transform = 'scale(1.05)';
+            this.style.transition = 'transform 0.3s ease';
+        });
+        button.addEventListener('mouseout', function() {
+            this.style.transform = 'scale(1)';
+        });
+    });
+});
+</script>
+</div>
+<div class="col-md-6">
+<div class="container mt-5">
+<h2 class="mb-4" style="font-family: 'American Typewriter', 'Courier Prime', serif; color: #2C2C2C;">Get in Touch</h2>
+<form class="needs-validation" id="contactForm" novalidate="">
+<div class="mb-3">
+<label class="form-label" for="name" style="font-family: 'Lato', 'Open Sans', sans-serif; color: #2C2C2C;">Name</label>
+<input class="form-control" id="name" required="" style="border: none; border-bottom: 1px solid #1C3F60; border-radius: 0; background-color: transparent;" type="text"/>
+<div class="invalid-feedback">Please providevide your name.</div>
+</div>
+<div class="mb-3">
+<label class="form-label" for="email" style="font-family: 'Lato', 'Open Sans', sans-serif; color: #2C2C2C;">Email</label>
+<input class="form-control" id="email" required="" style="border: none; border-bottom: 1px solid #1C3F60; border-radius: 0; background-color: transparent;" type="email"/>
+<div class="invalid-feedback">Please providevide a valid email address.</div>
+</div>
+<div class="mb-3">
+<label class="form-label" for="message" style="font-family: 'Lato', 'Open Sans', sans-serif; color: #2C2C2C;">Message</label>
+<textarea class="form-control" id="message" required="" rows="4" style="border: none; border-bottom: 1px solid #1C3F60; border-radius: 0; background-color: transparent;"></textarea>
+<div class="invalid-feedback">Please enter your message.</div>
+</div>
+<button class="btn btn-primary" style="background-color: #1C3F60; border: none; border-radius: 20px; padding: 10px 20px; font-family: 'Lato', 'Open Sans', sans-serif; transition: all 0.3s ease;" type="submit">Send</button>
+</form>
+<div class="alert alert-success mt-3" id="successMessage" style="display: none; background-color: #FFF9E6; color: #2C2C2C; border-color: #1C3F60;">
+    Successfully sent!
+  </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.getElementById('contactForm');
+  const successMessage = document.getElementById('successMessage');
+
+  form.addEventListener('submit', function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    if (form.checkValidity()) {
+      // Simulate form submission
+      setTimeout(function() {
+        form.reset();
+        successMessage.style.display = 'block';
+        setTimeout(function() {
+          successMessage.style.display = 'none';
+        }, 3000);
+      }, 500);
+    }
+
+    form.classList.add('was-validated');
+  }, false);
+});
+</script>
+</div>
+</div>
+</div>
+<footer style="width: 100%; z-index: 1000;">
+<footer class="bg-secondary py-4">
+<div class="container">
+<div class="row">
+<div class="col-md-4 mb-3 mb-md-0">
+<h5 class="text-accent mb-3">Thunder_bird</h5>
+<p class="text-charcoal small">Reviving the art of communication in a digital world. Secure, open-source, and user-focused.</p>
+</div>
+<div class="col-md-4 mb-3 mb-md-0">
+<h5 class="text-accent mb-3">Quick Links</h5>
+<ul class="list-unstyled">
+<li><a class="text-charcoal text-decoration-none" href="posts.html">Posts</a></li>
+<li><a class="text-charcoal text-decoration-none" href="about.html">About</a></li>
+<li><a class="text-charcoal text-decoration-none" href="contacts.html">Contacts</a></li>
+<li><a class="text-charcoal text-decoration-none" href="privacy_policy.html">Privacy Policy</a></li>
+</ul>
+</div>
+<div class="col-md-4">
+<h5 class="text-accent mb-3">Connect With Us</h5>
+<div class="d-flex">
+<a class="text-charcoal me-3" href="#"><i class="fab fa-twitter"></i></a>
+<a class="text-charcoal me-3" href="#"><i class="fab fa-facebook-f"></i></a>
+<a class="text-charcoal me-3" href="#"><i class="fab fa-linkedin-in"></i></a>
+<a class="text-charcoal" href="#"><i class="fab fa-github"></i></a>
+</div>
+</div>
+</div>
+<hr class="my-4 border-top border-charcoal"/>
+<div class="row">
+<div class="col-md-6 text-center text-md-start">
+<p class="small text-charcoal mb-0">© 2024 Thunder_bird. All rights reserved.</p>
+</div>
+<div class="col-md-6 text-center text-md-end">
+<p class="small text-charcoal mb-0">Contact: info@thunderbird.com | +1 (555) 123-4567</p>
+</div>
+</div>
+</div>
+</footer>
+<style>
+    footer {
+        background-color: #E6D9C2;
+    }
+    footer h5 {
+        font-family: 'American Typewriter', 'Courier Prime', monospace;
+        color: #1C3F60;
+    }
+    footer .text-charcoal {
+        color: #2C2C2C;
+    }
+    footer a:hover {
+        color: #1C3F60 !important;
+        transition: color 0.3s ease;
+    }
+    footer .list-unstyled li {
+        margin-bottom: 0.5rem;
+    }
+    footer .fab {
+        font-size: 1.2rem;
+    }
+</style>
+</footer>
+</body>
+</html>
